@@ -33,15 +33,21 @@ const mdl = admin.database().ref('mdl');
 require('http').get('http://attssystem.fr/wordpress/index.php/feed/', res => {
     const parser = new FeedMe(true);
     res.pipe(parser);
-    parser.on('end', () => mdl.set(parser.done().items, err => {
-        if(err) {
-            console.log('MDL - Error');
-            return;
-        }
-        console.log('MDL - Success');
-        success[1] = true;
-        endIfFinished();
-    }));
+    parser.on('end', () => {
+        const result = parser.done().items;
+        const fixed = result.map(elem => 
+            Object.keys(elem)
+                .reduce((obj, key) => Object.assign(obj, { [key.replace(/:/g, '_')]: elem[key] })));
+        mdl.set(fixed, err => {
+            if (err) {
+                console.log('MDL - Error');
+                return;
+            }
+            console.log('MDL - Success');
+            success[1] = true;
+            endIfFinished();
+        });
+    });
 });
 
 function endIfFinished() {
