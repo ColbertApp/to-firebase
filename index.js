@@ -30,7 +30,7 @@ request(graph(pageid), (err, res, body) => {
 //TODO: Write empty checker
 const FeedMe = require('feedme');
 const mdl = admin.database().ref('mdl');
-require('http').get('http://attssystem.fr/wordpress/index.php/feed/', res => {
+require('http').get('http://mdl.attssystem.fr/index.php/feed/', res => {
     const parser = new FeedMe(true);
     res.pipe(parser);
     parser.on('end', () => {
