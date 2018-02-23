@@ -9,8 +9,8 @@
   "author": "Théophile Cailliau",
   "license": "Unlicense",
   "dependencies": {
-    "feedme": "^1.1.0",
-    "firebase-admin": "^5.5.1",
-    "request": "^2.83.0"
+    "feedme": "^1.1.2",
+    "firebase-admin": "^5.9.0",
+    "node-fetch": "^2.0.0"
   }
 }
