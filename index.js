@@ -1,5 +1,6 @@
 const { writeFile } = require('fs');
 const fetch = require('node-fetch');
+const he = require('he');
 
 const admin = require('firebase-admin');
 const firebaseAccount = require('./firebase.json');
@@ -70,7 +71,7 @@ Promise.all([fbtask, mdltask]).then(async () => {
     if(newMDL.length > 0) {
         const len = newMDL.length;
         const plural = len >= 2 ? 's' : '';
-        await sendCloudMessage('mdl', `${len === 1 ? 'Un' : len} nouve${len >= 2 ? 'aux' : 'l'} arcticle${plural} de la MDL !`, newMDL[0].description);
+        await sendCloudMessage('mdl', `${len === 1 ? 'Un' : len} nouve${len >= 2 ? 'aux' : 'l'} arcticle${plural} de la MDL !`, he.decode(newMDL[0].description.replace(/<p class="link-more.+$/, '')));
     }
     
     admin.app().delete();
