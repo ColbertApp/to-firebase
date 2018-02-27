@@ -7,10 +7,10 @@ admin.initializeApp({
     credential: admin.credential.cert(firebaseAccount),
     databaseURL: 'https://colbert-app.firebaseio.com/'
 });
-const lycee = admin.database().ref('lycee');
 
 const FeedMe = require('feedme');
 const mdlReference = admin.database().ref('mdl');
+const lycee = admin.database().ref('lycee');
 
 const oldmdl = require('./mdl.json');
 const oldfb = require('./fb.json');
@@ -70,10 +70,10 @@ Promise.all([fbtask, mdltask]).then(async () => {
     if(newMDL.length > 0) {
         const len = newMDL.length;
         const plural = len >= 2 ? 's' : '';
-        await sendCloudMessage('mdl', `${len === 1 ? 'Un' : len} nouve${len >= 2 ? 'aux' : 'l'} arcticle${plural} de la MDL !`, newFB[0].message);
+        await sendCloudMessage('mdl', `${len === 1 ? 'Un' : len} nouve${len >= 2 ? 'aux' : 'l'} arcticle${plural} de la MDL !`, newMDL[0].description);
     }
     
-    // admin.app().delete();
+    admin.app().delete();
 });
 
 async function sendCloudMessage(topic, title, content) {
@@ -86,8 +86,8 @@ async function sendCloudMessage(topic, title, content) {
             notification: {
                 icon: 'ic_colbert_white',
                 color: '#d32f2f',
-                ttl: 0
-            }
+            },
+            ttl: 0
         },
         topic
     };
